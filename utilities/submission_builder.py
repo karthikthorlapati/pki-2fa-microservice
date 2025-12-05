@@ -3,22 +3,21 @@ import base64
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 
-# === CONFIGURATION: UPDATE POST-COMMIT ===
-COMMIT_ID = "PASTE_HASH_HERE"
-# =========================================
+# === CONFIGURATION ===
+# Run 'git log -1 --format=%H' to get this
+COMMIT_ID = "YOUR_COMMIT_HASH_HERE"
+# =====================
 
 def build_submission():
     try:
-        # 1. Load the Vault Identity (Private Key)
-        # Matches output from utilities/identity_gen.py
-        with open("identity_secret.pem", "rb") as secret_file:
+        # 1. Load Student Private Key
+        with open("student_private.pem", "rb") as secret_file:
             signer_key = serialization.load_pem_private_key(
                 secret_file.read(), 
                 password=None
             )
 
-        # 2. Sign the Commit Hash
-        # Creates a digital signature proving ownership
+        # 2. Sign the Commit Hash (RSA-PSS)
         digital_signature = signer_key.sign(
             COMMIT_ID.encode('utf-8'),
             padding.PSS(
@@ -28,12 +27,11 @@ def build_submission():
             hashes.SHA256()
         )
 
-        # 3. Load the Authority's Public Key (Instructor/Verifier)
-        # You must rename your instructor's key to 'authority_public.pem'
-        with open("authority_public.pem", "rb") as pub_file:
+        # 3. Load Instructor Public Key
+        with open("instructor_public.pem", "rb") as pub_file:
             verifier_key = serialization.load_pem_public_key(pub_file.read())
 
-        # 4. Encrypt the Signature (Seal the Proof)
+        # 4. Encrypt the Signature (RSA-OAEP)
         sealed_proof = verifier_key.encrypt(
             digital_signature,
             padding.OAEP(
@@ -43,14 +41,12 @@ def build_submission():
             )
         )
 
-        print("\n[Sealed Submission Proof]:")
+        print("\n[Sealed Submission Proof (Base64 Single Line)]:")
         print(base64.b64encode(sealed_proof).decode('utf-8'))
         print("")
 
-    except FileNotFoundError:
-        print("Error: Missing key files. Ensure 'identity_secret.pem' and 'authority_public.pem' exist.")
     except Exception as error:
         print(f"Submission Build Failed: {error}")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     build_submission()

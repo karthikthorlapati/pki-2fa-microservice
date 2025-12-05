@@ -4,13 +4,18 @@ import base64
 import time
 
 class TokenController:
-    def _init_(self, raw_hex_seed: str):
+    # FIX: Added double underscores before and after 'init'
+    def __init__(self, raw_hex_seed: str):
         self.seed_hex = raw_hex_seed.strip()
         self.encoded_seed = self._transcode_seed()
         self.otp_engine = pyotp.TOTP(self.encoded_seed)
 
     def _transcode_seed(self):
         """Transform Hex -> Binary -> Base32 for PyOTP compatibility."""
+        # Check for empty seed to prevent crash
+        if not self.seed_hex:
+            raise ValueError("Seed cannot be empty")
+            
         binary_data = bytes.fromhex(self.seed_hex)
         return base64.b32encode(binary_data).decode('utf-8')
 
