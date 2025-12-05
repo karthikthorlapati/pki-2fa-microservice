@@ -4,8 +4,8 @@ import json
 import sys
 
 # --- VAULT CONFIGURATION ---
-VAULT_ID = "YOUR_STUDENT_ID_HERE"
-VAULT_REPO = "https://github.com/YOUR_USERNAME/YOUR_REPO_NAME"
+VAULT_ID = "23A91A6160"
+VAULT_REPO = "https://github.com/karthikthorlapati/pki-2fa-microservice"
 # The Gateway URL remains the same
 GATEWAY_URL = "https://eajeyq4r3zljoq4rpovy2nthda0vtjqf.lambda-url.ap-south-1.on.aws/"
 # ---------------------------
