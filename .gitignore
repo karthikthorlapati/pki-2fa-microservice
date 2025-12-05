@@ -1,5 +1,5 @@
-locked_seed.dat
-_pycache_/
+encrypted_seed.txt
+pycache/
 *.pyc
 .env
 venv/

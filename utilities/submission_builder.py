@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 # === CONFIGURATION ===
 # Run 'git log -1 --format=%H' to get this
-COMMIT_ID = "YOUR_COMMIT_HASH_HERE"
+COMMIT_ID = "bb1e47335b06e357be662dbb52350224510f05d1"
 # =====================
 
 def build_submission():
