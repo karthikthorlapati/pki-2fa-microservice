@@ -1,0 +1,6 @@
+locked_seed.dat
+_pycache_/
+*.pyc
+.env
+venv/
+.DS_Store

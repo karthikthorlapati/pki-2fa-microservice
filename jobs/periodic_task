@@ -1,0 +1,1 @@
+* * * * cd /app && /usr/local/bin/python3 utilities/audit_runner.py >> /vault_logs/audit_trace.log 2>&1
